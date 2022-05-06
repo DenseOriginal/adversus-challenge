@@ -533,3 +533,27 @@
     background-color: #ffccbc;
   }
 }
+
+// Ensure that each column has a fixed with, and doesn't shift around when adding a new column
+table.table.recent tr {
+  &:nth-child(even) {
+    background-color: #eee;
+  }
+
+  // Column width
+  :nth-child(1) {
+    width: 30%;
+  }
+
+  :nth-child(2) {
+    width: 40%;
+  }
+
+  :nth-child(3) {
+    width: 15%;
+  }
+
+  :nth-child(4) {
+    width: 15%;
+  }
+}
