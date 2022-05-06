@@ -1,13 +1,11 @@
 import React from "react";
-import { BackendService, Product, SalesEvent, User } from "../../services/backend";
+import { Product, User } from "../../services/backend";
 
 interface Props {
 	event: { user: User; product: Product };
 }
 
 export class SplashModal extends React.Component<Props> {
-	backendService = BackendService.Instance;
-
 	render() {
 		return (
 			// Need to add a key to make react rerender the splash, and therefore trigger the timeout animation
