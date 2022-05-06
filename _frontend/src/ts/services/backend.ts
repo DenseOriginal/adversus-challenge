@@ -56,24 +56,24 @@ export class BackendService {
 }
 
 // Interfaces
-interface SalesEvent {
+export interface SalesEvent {
   type: 'sale';
   userId: number;
   productId: number;
   duration: number;
 }
 
-interface SaleEventCallback {
+export interface SaleEventCallback {
   (event: SalesEvent): void;
 }
 
-interface User {
+export interface User {
 	type: 'user';
 	id: number;
 	name: string;
 }
 
-interface Product {
+export interface Product {
 	type: 'product';
 	id: number;
 	name: string;
