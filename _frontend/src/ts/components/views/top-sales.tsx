@@ -21,12 +21,14 @@ export class TopSalesView extends React.Component<{}, State> {
 	backendService = BackendService.Instance;
 
 	componentDidMount() {
+		// Setup the event listener
 		this.backendService.registerSalesEventListener(async (event) => {
 			const { userId, productId } = event;
 
 			// Get the product price
 			const { unitPrice } = await this.backendService.getProduct(productId);
 
+			// Get the name
 			const { name } = await this.backendService.getUser(userId);
 
 			// Update the component state

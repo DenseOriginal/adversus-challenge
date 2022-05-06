@@ -19,6 +19,7 @@ export class RecentSalesView extends React.Component<{}, State> {
 	backendService = BackendService.Instance;
 
 	componentDidMount() {
+		// Setup event listener
 		this.backendService.registerSalesEventListener(async (event) => {
 			const { userId, productId, duration } = event;
 
