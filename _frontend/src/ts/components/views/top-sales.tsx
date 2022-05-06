@@ -27,31 +27,33 @@ export class TopSalesView extends React.Component<{}, State> {
 			// Get the product price
 			const { unitPrice } = await this.backendService.getProduct(productId);
 
-			// Check if the user has made any sales before
-			let user = this.state.people.get(userId);
-
-			// If the users wasn't found, then create them
-			if (!user) {
-				const { name } = await this.backendService.getUser(userId);
-
-				user = {
-					id: userId,
-					name,
-					totalSales: 0,
-				};
-			}
-
-			// Add the new sale to their totalSales
-			user.totalSales = precisionRound(user.totalSales + unitPrice, 2);
-
-			// Set the updated (or new) object in the map
-			this.state.people.set(userId, user);
-
-			// Sort the sales array
-			const users = [...this.state.people.values()].sort((a, b) => b.totalSales - a.totalSales).slice(0, 10);
+			const { name } = await this.backendService.getUser(userId);
 
 			// Update the component state
-			this.setState(() => ({ people: this.state.people, sales: users }));
+			this.setState((state) => {
+				// Check if the user has made any sales before
+				let user = state.people.get(userId);
+
+				// If the users wasn't found, then create them
+				if (!user) {
+					user = {
+						id: userId,
+						name,
+						totalSales: 0,
+					};
+				}
+
+				// Add the new sale to their totalSales
+				user.totalSales = precisionRound(user.totalSales + unitPrice, 2);
+
+				// Set the updated (or new) object in the map
+				state.people.set(userId, user);
+
+				// Sort the sales array
+				const users = [...state.people.values()].sort((a, b) => b.totalSales - a.totalSales).slice(0, 10);
+
+				return { people: state.people, sales: users }
+			});
 		});
 	}
 
