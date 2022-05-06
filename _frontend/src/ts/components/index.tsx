@@ -4,9 +4,6 @@ import { TopSalesView } from './views/top-sales';
 import { SplashModal } from './widgets/splash-modal';
 import { Sidebar } from './views/sidebar';
 import { Header } from './views/header';
-
-import { SalesEventHub  } from '../services/messages';
-import { EntityStore } from '../services/meta-store';
 import { BackendService, Product, SalesEvent, User } from '../services/backend';
 
 interface State {
