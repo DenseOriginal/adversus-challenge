@@ -8,6 +8,7 @@
     "noImplicitAny": false,
     "sourceMap": true,
     "target": "es5",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "downlevelIteration": true
   }
 }
