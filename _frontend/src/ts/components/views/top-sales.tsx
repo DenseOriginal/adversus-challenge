@@ -1,42 +1,84 @@
 import React from "react";
-import Table from "react-table";
+import { BackendService } from "../../services/backend";
 
-export class TopSalesView extends React.Component<{}> {
-	
-	render() {
-		const columns = [
-			{
-				Header: 'User',
-				accessor: 'user',
-			},{
-				Header: 'Value',
-				accessor: 'value'
+interface UserSales {
+	id: number;
+	name: string;
+	totalSales: number;
+}
+
+interface State {
+	sales: Array<UserSales>; // This should be a sorted array of all the sales, with the highest first
+	people: Map<number, UserSales>;
+} 
+
+export class TopSalesView extends React.Component<{}, State> {
+	state: State = {
+		sales: [],
+		people: new Map<number, UserSales>(),
+	}
+
+	backendService = BackendService.Instance;
+
+	componentDidMount() {
+		this.backendService.registerSalesEventListener(async (event) => {
+			const { userId, productId } = event;
+			
+			// Get the product price
+			const { unitPrice } = await this.backendService.getProduct(productId);
+
+			// Check if the user has made any sales before
+			let user = this.state.people.get(userId);
+
+			// If the users wasn't found, then create them
+			if(!user) {
+				const { name } = await this.backendService.getUser(userId);
+
+				user = {
+					id: userId,
+					name,
+					totalSales: 0,
+				};
 			}
-		];
-		
+
+			// Add the new sale to their totalSales
+			user.totalSales = precisionRound(user.totalSales + unitPrice, 2);
+
+			// Set the updated (or new) object in the map
+			this.state.people.set(userId, user);
+
+			// Sort the sales array
+			const users = [...this.state.people.values()].sort((a, b) => b.totalSales - a.totalSales).slice(0, 10);
+
+			// Update the component state
+			this.setState(() => ({ people: this.state.people, sales: users }));
+		});
+	}
+
+	render() {
 		return (
-			<table className="table">
+			<table className="table top">
 				<thead>
 					<tr>
 						<th>User</th>
-						<th>Value</th>
+						<th>Total</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>Scratchy</td>
-						<td>1337</td>
-					</tr>
-					<tr>
-						<td>Felix</td>
-						<td>1337</td>
-					</tr>
-					<tr>
-						<td>Tomcat</td>
-						<td>1337</td>
-					</tr>
+					{this.state.sales.map(sale => 
+						<tr>
+							<td>{sale.name}</td>
+							<td>{sale.totalSales}</td>
+						</tr>
+					)}
 				</tbody>
 			</table>
 		)
 	}
+}
+
+// Fix for weird floating point fuckery
+function precisionRound(number, precision) {
+	var factor = Math.pow(10, precision);
+	return Math.round(number * factor) / factor;
 }
