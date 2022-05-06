@@ -37,26 +37,29 @@ export class RecentSalesView extends React.Component<{}, State> {
 
 	render() {
 		return (
-			<table className="table recent">
-				<thead>
-					<tr>
-						<th>User</th>
-						<th>Product</th>
-						<th>Price</th>
-						<th>Duration</th>
-					</tr>
-				</thead>
-				<tbody>
-					{this.state.sales.map(sale => 
+			<div>
+				<h2>Recent sales</h2>
+				<table className="table recent">
+					<thead>
 						<tr>
-							<td>{sale.user.name}</td>
-							<td>{sale.product.name}</td>
-							<td>{sale.product.unitPrice}</td>
-							<td>{sale.duration}</td>
+							<th>User</th>
+							<th>Product</th>
+							<th>Price</th>
+							<th>Duration</th>
 						</tr>
-					)}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{this.state.sales.map(sale =>
+							<tr>
+								<td>{sale.user.name}</td>
+								<td>{sale.product.name}</td>
+								<td>{sale.product.unitPrice}</td>
+								<td>{sale.duration}</td>
+							</tr>
+						)}
+					</tbody>
+				</table>
+			</div>
 		)
 	}
 }

@@ -10,7 +10,7 @@ interface UserSales {
 interface State {
 	sales: Array<UserSales>; // This should be a sorted array of all the sales, with the highest first
 	people: Map<number, UserSales>;
-} 
+}
 
 export class TopSalesView extends React.Component<{}, State> {
 	state: State = {
@@ -23,7 +23,7 @@ export class TopSalesView extends React.Component<{}, State> {
 	componentDidMount() {
 		this.backendService.registerSalesEventListener(async (event) => {
 			const { userId, productId } = event;
-			
+
 			// Get the product price
 			const { unitPrice } = await this.backendService.getProduct(productId);
 
@@ -31,7 +31,7 @@ export class TopSalesView extends React.Component<{}, State> {
 			let user = this.state.people.get(userId);
 
 			// If the users wasn't found, then create them
-			if(!user) {
+			if (!user) {
 				const { name } = await this.backendService.getUser(userId);
 
 				user = {
@@ -57,22 +57,25 @@ export class TopSalesView extends React.Component<{}, State> {
 
 	render() {
 		return (
-			<table className="table top">
-				<thead>
-					<tr>
-						<th>User</th>
-						<th>Total</th>
-					</tr>
-				</thead>
-				<tbody>
-					{this.state.sales.map(sale => 
+			<div>
+				<h2>Top sales leaderboard</h2>
+				<table className="table top">
+					<thead>
 						<tr>
-							<td>{sale.name}</td>
-							<td>{sale.totalSales}</td>
+							<th>User</th>
+							<th>Total</th>
 						</tr>
-					)}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{this.state.sales.map(sale =>
+							<tr>
+								<td>{sale.name}</td>
+								<td>{sale.totalSales}</td>
+							</tr>
+						)}
+					</tbody>
+				</table>
+			</div>
 		)
 	}
 }
