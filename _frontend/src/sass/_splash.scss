@@ -1,0 +1,35 @@
+.splash {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: fit-content;
+  @include shadow('medium');
+  border-radius: .4rem;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  animation: fade-in-out 5000ms linear;
+
+  p {
+    padding: 16px 8px;
+  }
+
+  .timeout {
+    width: 100%;
+    background-color: $brand-primary;
+    height: 4px;
+    animation: timeout 5000ms;
+  }
+}
+
+@keyframes timeout {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+@keyframes fade-in-out {
+  0% { opacity: 0; }
+  4% { opacity: 1; }
+  96% { opacity: 1; }
+  100% { opacity: 0; }
+}
