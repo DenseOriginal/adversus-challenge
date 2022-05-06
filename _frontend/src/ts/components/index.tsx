@@ -18,18 +18,9 @@ export class DashboardApplication extends React.Component<{}, State> {
 		mode: 'top',
 		splash: true
 	}
-	hub = new SalesEventHub()
-	store = new EntityStore();
 
-	componentDidMount() {
-		// initialize services
-		// ...
-		this.hub.connect();
-		this.hub.registerSalesEventListener(async (e) => {
-				let user = await this.store.getUser(e.userId)
-				let product = await this.store.getProduct(e.productId)
-				console.log('User', user.name, 'sold', product.name, 'with subscription length', e.duration)
-		})
+	componentDidMount(): void {
+		setTimeout(this.switchMode.bind(this), this.state.mode === 'top' ? 5000 : 5000);
 	}
 
 	render() {
@@ -50,5 +41,10 @@ export class DashboardApplication extends React.Component<{}, State> {
 				</div>
 			</>
 		)
+	}
+
+	switchMode() {
+		this.setState({ mode: this.state.mode === 'recent' ? 'top' : 'recent' })
+		setTimeout(this.switchMode.bind(this), this.state.mode === 'top' ? 5000 : 5000);
 	}
 }
