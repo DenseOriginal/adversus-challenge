@@ -67,8 +67,8 @@ export class TopSalesView extends React.Component<{}, State> {
 						</tr>
 					</thead>
 					<tbody>
-						{this.state.sales.map(sale =>
-							<tr>
+						{this.state.sales.map((sale, idx) =>
+							<tr key={idx}>
 								<td>{sale.name}</td>
 								<td>{sale.totalSales}</td>
 							</tr>

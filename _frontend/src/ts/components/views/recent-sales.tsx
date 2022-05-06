@@ -49,8 +49,8 @@ export class RecentSalesView extends React.Component<{}, State> {
 						</tr>
 					</thead>
 					<tbody>
-						{this.state.sales.map(sale =>
-							<tr>
+						{this.state.sales.map((sale, idx) =>
+							<tr key={idx}>
 								<td>{sale.user.name}</td>
 								<td>{sale.product.name}</td>
 								<td>{sale.product.unitPrice}</td>
